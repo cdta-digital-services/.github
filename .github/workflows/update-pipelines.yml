@@ -23,14 +23,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Render pipeline status section
+      - name: Diagnostic — identify token and visible repos
         env:
           GH_TOKEN: ${{ secrets.ORG_README_PAT }}
         run: |
           if [ -z "${GH_TOKEN:-}" ]; then
-            echo "::error::Secret ORG_README_PAT is not set. It must be a PAT with org-wide read access (Metadata: Read, Actions: Read on all org repos)."
+            echo "::error::Secret ORG_README_PAT is not set."
             exit 1
           fi
+          echo "Token length: ${#GH_TOKEN}"
+          echo "Token prefix: ${GH_TOKEN:0:4}"
+          echo "Authenticated as:"
+          gh api user --jq '"  login=" + .login + " type=" + .type' || echo "  (gh api user failed)"
+          echo "Org repos visible:"
+          gh api orgs/cdta-digital-services/repos --jq '. | length' || echo "  (orgs/.../repos failed)"
+
+      - name: Render pipeline status section
+        env:
+          GH_TOKEN: ${{ secrets.ORG_README_PAT }}
+        run: |
           python3 .github/scripts/render_pipelines.py
 
       - name: Commit and push if changed

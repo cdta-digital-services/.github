@@ -76,6 +76,13 @@ def badge_md(repo: str, workflow: dict) -> str:
 
 def render() -> str:
     repos = list_repos()
+    if not repos:
+        raise SystemExit(
+            f"error: orgs/{ORG}/repos returned 0 repositories. The PAT either "
+            "lacks org access (check Resource owner = org, Metadata: Read, "
+            "Actions: Read), is pending org approval, or fine-grained PATs are "
+            "not enabled for this org."
+        )
     rows = []
     no_pipelines = []
     archived = []
