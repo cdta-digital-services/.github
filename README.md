@@ -68,9 +68,14 @@ Live build, security-scan, and deploy pipeline status across all repositories in
 | Repository | Pipelines |
 | --- | --- |
 | [`article_fix`](https://github.com/cdta-digital-services/article_fix) | [![PHP Security Scan](https://github.com/cdta-digital-services/article_fix/actions/workflows/php-scan.yml/badge.svg)](https://github.com/cdta-digital-services/article_fix/actions/workflows/php-scan.yml) |
+| [`azure-cdta-d9-backup-tools`](https://github.com/cdta-digital-services/azure-cdta-d9-backup-tools) | [![CodeQL default setup](https://img.shields.io/badge/CodeQL-default%20setup-2da44e?logo=github)](https://github.com/cdta-digital-services/azure-cdta-d9-backup-tools/security/code-scanning) |
+| [`cdta`](https://github.com/cdta-digital-services/cdta) | [![CodeQL default setup](https://img.shields.io/badge/CodeQL-default%20setup-2da44e?logo=github)](https://github.com/cdta-digital-services/cdta/security/code-scanning) |
+| [`cdta-d9-config`](https://github.com/cdta-digital-services/cdta-d9-config) | [![CodeQL default setup](https://img.shields.io/badge/CodeQL-default%20setup-2da44e?logo=github)](https://github.com/cdta-digital-services/cdta-d9-config/security/code-scanning) |
+| [`cdta-d9-drupal-core`](https://github.com/cdta-digital-services/cdta-d9-drupal-core) | [![CodeQL default setup](https://img.shields.io/badge/CodeQL-default%20setup-2da44e?logo=github)](https://github.com/cdta-digital-services/cdta-d9-drupal-core/security/code-scanning) |
 | [`cdta-dev-docker`](https://github.com/cdta-digital-services/cdta-dev-docker) | [![Docker](https://github.com/cdta-digital-services/cdta-dev-docker/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/cdta-digital-services/cdta-dev-docker/actions/workflows/docker-publish.yml) |
 | [`cdta-web`](https://github.com/cdta-digital-services/cdta-web) | [![PHP Security Scan](https://github.com/cdta-digital-services/cdta-web/actions/workflows/php-scan.yml/badge.svg)](https://github.com/cdta-digital-services/cdta-web/actions/workflows/php-scan.yml) |
 | [`d9-cdta-custom-module`](https://github.com/cdta-digital-services/d9-cdta-custom-module) | [![PHP Security Scan](https://github.com/cdta-digital-services/d9-cdta-custom-module/actions/workflows/php-scan.yml/badge.svg)](https://github.com/cdta-digital-services/d9-cdta-custom-module/actions/workflows/php-scan.yml) |
+| [`d9-cdta-monitor`](https://github.com/cdta-digital-services/d9-cdta-monitor) | [![CodeQL default setup](https://img.shields.io/badge/CodeQL-default%20setup-2da44e?logo=github)](https://github.com/cdta-digital-services/d9-cdta-monitor/security/code-scanning) |
 | [`d9-cdta-service-area-map`](https://github.com/cdta-digital-services/d9-cdta-service-area-map) | [![PHP Security Scan](https://github.com/cdta-digital-services/d9-cdta-service-area-map/actions/workflows/php-scan.yml/badge.svg)](https://github.com/cdta-digital-services/d9-cdta-service-area-map/actions/workflows/php-scan.yml) |
 | [`d9-gtfs-data`](https://github.com/cdta-digital-services/d9-gtfs-data) | [![PHP Security Scan](https://github.com/cdta-digital-services/d9-gtfs-data/actions/workflows/php-scan.yml/badge.svg)](https://github.com/cdta-digital-services/d9-gtfs-data/actions/workflows/php-scan.yml) |
 | [`d9-gtfs-service-alerts`](https://github.com/cdta-digital-services/d9-gtfs-service-alerts) | [![PHP Security Scan](https://github.com/cdta-digital-services/d9-gtfs-service-alerts/actions/workflows/php-scan.yml/badge.svg)](https://github.com/cdta-digital-services/d9-gtfs-service-alerts/actions/workflows/php-scan.yml) |
@@ -80,10 +85,9 @@ Live build, security-scan, and deploy pipeline status across all repositories in
 | [`d9-style-guide`](https://github.com/cdta-digital-services/d9-style-guide) | [![PHP Security Scan](https://github.com/cdta-digital-services/d9-style-guide/actions/workflows/php-scan.yml/badge.svg)](https://github.com/cdta-digital-services/d9-style-guide/actions/workflows/php-scan.yml) |
 | [`d9-tracker`](https://github.com/cdta-digital-services/d9-tracker) | [![PHP Security Scan](https://github.com/cdta-digital-services/d9-tracker/actions/workflows/php-scan.yml/badge.svg)](https://github.com/cdta-digital-services/d9-tracker/actions/workflows/php-scan.yml) |
 | [`route-api`](https://github.com/cdta-digital-services/route-api) | [![PHP Security Scan](https://github.com/cdta-digital-services/route-api/actions/workflows/php-scan.yml/badge.svg)](https://github.com/cdta-digital-services/route-api/actions/workflows/php-scan.yml) |
+| [`transitfeed`](https://github.com/cdta-digital-services/transitfeed) | [![CodeQL default setup](https://img.shields.io/badge/CodeQL-default%20setup-2da44e?logo=github)](https://github.com/cdta-digital-services/transitfeed/security/code-scanning) |
 
-**Repositories without configured pipelines:** `azure-cdta-d9-backup-tools`, `cdta`, `cdta-d9-config`, `cdta-d9-drupal-core`, `d9-cdta-monitor`, `transitfeed`
-
-_Last updated: 2026-05-12 20:45 UTC_
+_Last updated: 2026-05-12 20:49 UTC_
 <!-- pipelines:end -->
 
 ## Collaboration

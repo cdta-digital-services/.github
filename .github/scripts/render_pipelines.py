@@ -62,6 +62,21 @@ def list_workflows(repo: str) -> list[dict]:
     ]
 
 
+def has_codeql_default_setup(repo: str) -> bool:
+    try:
+        out = gh("api", f"repos/{ORG}/{repo}/code-scanning/default-setup",
+                 "--jq", ".state")
+    except subprocess.CalledProcessError:
+        return False
+    return out.strip() == "configured"
+
+
+def codeql_default_badge(repo: str) -> str:
+    badge = "https://img.shields.io/badge/CodeQL-default%20setup-2da44e?logo=github"
+    href = f"https://github.com/{ORG}/{repo}/security/code-scanning"
+    return f"[![CodeQL default setup]({badge})]({href})"
+
+
 def badge_md(repo: str, workflow: dict) -> str:
     filename = workflow["path"].rsplit("/", 1)[-1]
     raw_name = workflow.get("name") or ""
@@ -94,12 +109,14 @@ def render() -> str:
             archived.append(name)
             continue
         workflows = list_workflows(name)
-        if not workflows:
+        badge_parts = [badge_md(name, w) for w in workflows]
+        if not badge_parts and has_codeql_default_setup(name):
+            badge_parts.append(codeql_default_badge(name))
+        if not badge_parts:
             no_pipelines.append(name)
             continue
-        badges = " ".join(badge_md(name, w) for w in workflows)
         repo_link = f"[`{name}`]({repo['html_url']})"
-        rows.append(f"| {repo_link} | {badges} |")
+        rows.append(f"| {repo_link} | {' '.join(badge_parts)} |")
 
     lines = [
         "| Repository | Pipelines |",
