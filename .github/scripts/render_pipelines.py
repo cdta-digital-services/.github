@@ -18,7 +18,8 @@ import os
 import pathlib
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 ORG = "cdta-digital-services"
 README = pathlib.Path(__file__).resolve().parents[2] / "README.md"
@@ -136,7 +137,7 @@ def render() -> str:
             + ", ".join(f"`{n}`" for n in archived)
         )
 
-    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    timestamp = datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d %H:%M %Z")
     out.append(f"\n_Last updated: {timestamp}_")
     return "\n".join(out)
 
