@@ -79,6 +79,51 @@ def codeql_default_badge(repo: str) -> str:
     return f"[![CodeQL default setup]({badge})]({href})"
 
 
+ALERT_KINDS = [
+    ("code_scanning",   "code-scanning/alerts",   "code-scanning",   "code",    "code-scanning"),
+    ("dependabot",      "dependabot/alerts",      "dependabot",      "deps",    "dependabot"),
+    ("secret_scanning", "secret-scanning/alerts", "secret-scanning", "secrets", "secret-scanning"),
+]
+
+
+def count_open_alerts(repo: str, api_path: str) -> int | None:
+    try:
+        out = gh("api", "--paginate",
+                 f"repos/{ORG}/{repo}/{api_path}?state=open&per_page=100",
+                 "--jq", "length")
+    except subprocess.CalledProcessError:
+        return None
+    total = 0
+    for line in out.strip().splitlines():
+        line = line.strip()
+        if line.isdigit():
+            total += int(line)
+    return total
+
+
+def alert_color(kind: str, count: int) -> str:
+    if count == 0:
+        return "2da44e"  # green
+    if kind == "secret_scanning":
+        return "d73a49"  # red — any secret is bad
+    if kind == "dependabot":
+        return "d73a49" if count >= 20 else "dbab09"  # red if 20+, else yellow
+    return "d73a49" if count >= 5 else "dbab09"  # code scanning: red if 5+, else yellow
+
+
+def alerts_badges_md(repo: str) -> str:
+    parts = []
+    for kind, api_path, _, label, security_tab in ALERT_KINDS:
+        count = count_open_alerts(repo, api_path)
+        if count is None:
+            continue
+        color = alert_color(kind, count)
+        badge = f"https://img.shields.io/badge/{label}-{count}-{color}"
+        href = f"https://github.com/{ORG}/{repo}/security/{security_tab}"
+        parts.append(f"[![{label} alerts]({badge})]({href})")
+    return " ".join(parts)
+
+
 def badge_md(repo: str, workflow: dict) -> str:
     filename = workflow["path"].rsplit("/", 1)[-1]
     raw_name = workflow.get("name") or ""
@@ -116,15 +161,16 @@ def render() -> str:
         badge_parts = [badge_md(name, w) for w in file_wf]
         if has_codeql_default_setup(name, all_wf):
             badge_parts.append(codeql_default_badge(name))
-        if not badge_parts:
+        alerts_cell = alerts_badges_md(name)
+        if not badge_parts and not alerts_cell:
             no_pipelines.append(name)
             continue
         repo_link = f"[`{name}`]({repo['html_url']})"
-        rows.append(f"| {repo_link} | {' '.join(badge_parts)} |")
+        rows.append(f"| {repo_link} | {' '.join(badge_parts)} | {alerts_cell} |")
 
     lines = [
-        "| Repository | Pipelines |",
-        "| --- | --- |",
+        "| Repository | Pipelines | Open Alerts |",
+        "| --- | --- | --- |",
         *rows,
     ]
     out = ["\n".join(lines)]
