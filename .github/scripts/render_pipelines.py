@@ -49,27 +49,28 @@ def list_repos() -> list[dict]:
     return sorted(repos, key=lambda r: r["name"].lower())
 
 
-def list_workflows(repo: str) -> list[dict]:
+def list_all_workflows(repo: str) -> list[dict]:
     try:
         out = gh("api", f"repos/{ORG}/{repo}/actions/workflows",
                  "--jq", ".workflows")
     except subprocess.CalledProcessError:
         return []
     workflows = json.loads(out) if out.strip() else []
-    return [
-        w for w in workflows
-        if w.get("state") == "active"
-        and w.get("path", "").startswith(".github/workflows/")
-    ]
+    return [w for w in workflows if w.get("state") == "active"]
 
 
-def has_codeql_default_setup(repo: str) -> bool:
-    try:
-        out = gh("api", f"repos/{ORG}/{repo}/code-scanning/default-setup",
-                 "--jq", ".state")
-    except subprocess.CalledProcessError:
-        return False
-    return out.strip() == "configured"
+def list_workflows(repo: str) -> list[dict]:
+    return [w for w in list_all_workflows(repo)
+            if w.get("path", "").startswith(".github/workflows/")]
+
+
+def has_codeql_default_setup(repo: str, workflows: list[dict] | None = None) -> bool:
+    if workflows is None:
+        workflows = list_all_workflows(repo)
+    return any(
+        w.get("path") == "dynamic/github-code-scanning/codeql"
+        for w in workflows
+    )
 
 
 def codeql_default_badge(repo: str) -> str:
@@ -109,9 +110,11 @@ def render() -> str:
         if repo.get("archived"):
             archived.append(name)
             continue
-        workflows = list_workflows(name)
-        badge_parts = [badge_md(name, w) for w in workflows]
-        if has_codeql_default_setup(name):
+        all_wf = list_all_workflows(name)
+        file_wf = [w for w in all_wf
+                   if w.get("path", "").startswith(".github/workflows/")]
+        badge_parts = [badge_md(name, w) for w in file_wf]
+        if has_codeql_default_setup(name, all_wf):
             badge_parts.append(codeql_default_badge(name))
         if not badge_parts:
             no_pipelines.append(name)
