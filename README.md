@@ -83,7 +83,7 @@ Live build, security-scan, and deploy pipeline status across all repositories in
 
 **Repositories without configured pipelines:** `azure-cdta-d9-backup-tools`, `cdta`, `cdta-d9-config`, `cdta-d9-drupal-core`, `d9-cdta-monitor`, `transitfeed`
 
-_Last updated: 2026-05-13 09:35 EDT_
+_Last updated: 2026-05-13 10:55 EDT_
 <!-- pipelines:end -->
 
 ## Collaboration
