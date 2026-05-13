@@ -110,7 +110,7 @@ def render() -> str:
             continue
         workflows = list_workflows(name)
         badge_parts = [badge_md(name, w) for w in workflows]
-        if not badge_parts and has_codeql_default_setup(name):
+        if has_codeql_default_setup(name):
             badge_parts.append(codeql_default_badge(name))
         if not badge_parts:
             no_pipelines.append(name)
