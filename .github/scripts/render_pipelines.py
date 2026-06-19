@@ -40,8 +40,10 @@ def gh(*args: str) -> str:
 
 
 def list_repos() -> list[dict]:
+    # Archived repos are excluded — they don't ship code and shouldn't
+    # appear in the active-pipeline status table.
     out = gh("api", "--paginate", f"orgs/{ORG}/repos", "--jq",
-             "[.[] | {name, archived, html_url}]")
+             "[.[] | select(.archived == false) | {name, archived, html_url}]")
     repos = []
     for chunk in out.strip().splitlines():
         if chunk:
